@@ -38,17 +38,11 @@
     ],
     "externalBin": [],
     "resources": [],
-    "windows": {
-      "nsis": {
-        "oneClick": false
-      }
+    "nsis": {
+      "oneClick": false
     },
-    "macOS": {
-      "dmg": {}
-    },
-    "linux": {
-      "deb": {},
-      "appimage": {}
-    }
+    "dmg": {},
+    "deb": {},
+    "appimage": {}
   }
 }
