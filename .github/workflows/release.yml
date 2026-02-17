@@ -47,7 +47,7 @@ jobs:
           releaseBody: 'See the assets below for the latest binaries.'
           releaseDraft: true
           prerelease: false
-          args: ${{ matrix.platform == 'windows-latest' && '--target x86_64-pc-windows-msvc' || '' }}
+          args: ${{ matrix.platform == 'windows-latest' && '--target x86_64-pc-windows-msvc --bundles nsis' || (matrix.platform == 'macos-latest' && '--bundles dmg' || '--bundles appimage') }}
 
       # Build Windows x86 separately if on windows
       - name: Build Windows x86
@@ -60,4 +60,4 @@ jobs:
           releaseName: 'ScrcpyGUI ${{ github.ref_name }}'
           releaseDraft: true
           prerelease: false
-          args: --target i686-pc-windows-msvc
+          args: --target i686-pc-windows-msvc --bundles nsis
