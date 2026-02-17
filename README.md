@@ -1,12 +1,8 @@
 <p align="center">
   <img src="icon.png" width="128" height="128" alt="ScrcpyGUI Icon">
   <br>
-  app icon
+ # ScrcpyGUI v3 🚀
 </p>
-
-# ScrcpyGUI v3 🚀
-
-<img width="100" height="100" alt="icon" src="https://github.com/user-attachments/assets/3c45eed6-eb0a-44d5-ac5b-a0d7c39baa87" />
 
 A modern, high-performance GUI for [scrcpy](https://github.com/Genymobile/scrcpy), completely rebuilt from the ground up with **Tauri v2**, **React 19**, and **Rust**.
 
