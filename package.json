@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "build:linux": "NO_STRIP=1 APPIMAGE_EXTRACT_AND_RUN=1 LINUXDEPLOY_EXCLUDE_LIBS=libwayland-client.so.0:libwayland-cursor.so.0:libwayland-egl.so.1:libwayland-server.so.0 npm run tauri build"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",
