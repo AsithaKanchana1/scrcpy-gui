@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, memo } from 'react';
 import { Terminal, Trash2, Download } from 'lucide-react';
 import { invoke } from '@tauri-apps/api/core';
 
@@ -9,7 +9,7 @@ interface LogPanelProps {
     onRunCommand?: (cmd: string) => void;
 }
 
-export default function LogPanel({ logs, onClear, onAddLog, onRunCommand }: LogPanelProps) {
+const LogPanel = memo(({ logs, onClear, onAddLog, onRunCommand }: LogPanelProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isLive, setIsLive] = useState(false);
     const [command, setCommand] = useState("");
@@ -23,7 +23,7 @@ export default function LogPanel({ logs, onClear, onAddLog, onRunCommand }: LogP
             const timer = setTimeout(() => setIsLive(false), 2000);
             return () => clearTimeout(timer);
         }
-    }, [logs]);
+    }, [logs.length]); // Only trigger scroll on length change
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && command.trim()) {
@@ -126,4 +126,6 @@ export default function LogPanel({ logs, onClear, onAddLog, onRunCommand }: LogP
             <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent pointer-events-none" />
         </div>
     );
-}
+});
+
+export default LogPanel;

@@ -634,8 +634,30 @@ pub async fn run_scrcpy(window: Window, state: State<'_, ScrcpyState>, config: S
     tokio::spawn(async move {
         let reader = BufReader::new(stdout);
         let mut lines = reader.lines();
-        while let Ok(Some(line)) = lines.next_line().await {
-            let _ = window_clone.emit("scrcpy-log", line);
+        let mut buffer = Vec::new();
+        let mut interval = tokio::time::interval(Duration::from_millis(100));
+
+        loop {
+            tokio::select! {
+                line_res = lines.next_line() => {
+                    match line_res {
+                        Ok(Some(line)) => buffer.push(line),
+                        Ok(None) => break,
+                        Err(_) => break,
+                    }
+                }
+                _ = interval.tick() => {
+                    if !buffer.is_empty() {
+                        let combined = buffer.join("\n");
+                        let _ = window_clone.emit("scrcpy-log", combined);
+                        buffer.clear();
+                    }
+                }
+            }
+        }
+        // Final flush
+        if !buffer.is_empty() {
+            let _ = window_clone.emit("scrcpy-log", buffer.join("\n"));
         }
     });
 
@@ -643,8 +665,30 @@ pub async fn run_scrcpy(window: Window, state: State<'_, ScrcpyState>, config: S
     tokio::spawn(async move {
         let reader = BufReader::new(stderr);
         let mut lines = reader.lines();
-        while let Ok(Some(line)) = lines.next_line().await {
-            let _ = window_clone2.emit("scrcpy-log", line); // Scrcpy sends logs to stderr mostly
+        let mut buffer = Vec::new();
+        let mut interval = tokio::time::interval(Duration::from_millis(100));
+
+        loop {
+            tokio::select! {
+                line_res = lines.next_line() => {
+                    match line_res {
+                        Ok(Some(line)) => buffer.push(line),
+                        Ok(None) => break,
+                        Err(_) => break,
+                    }
+                }
+                _ = interval.tick() => {
+                    if !buffer.is_empty() {
+                        let combined = buffer.join("\n");
+                        let _ = window_clone2.emit("scrcpy-log", combined);
+                        buffer.clear();
+                    }
+                }
+            }
+        }
+        // Final flush
+        if !buffer.is_empty() {
+            let _ = window_clone2.emit("scrcpy-log", buffer.join("\n"));
         }
     });
 

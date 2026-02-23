@@ -142,7 +142,8 @@ export function useScrcpy() {
 
     useEffect(() => {
         const unlistenLog = listen<string>('scrcpy-log', (event) => {
-            setLogs(prev => [...prev.slice(-100), event.payload]);
+            const newLines = event.payload.split('\n');
+            setLogs(prev => [...prev.slice(-(100 - newLines.length)), ...newLines]);
         });
 
         const unlistenStatus = listen<any>('scrcpy-status', (event) => {
