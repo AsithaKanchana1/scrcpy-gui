@@ -97,8 +97,9 @@ export default function Header({ onThemeChange, currentTheme, binaryStatus, onDo
                     <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-white uppercase italic">
                         scrcpy <span className="text-primary not-italic">GUI</span>
                     </h1>
-                    <div className="px-1.5 py-0.5 bg-zinc-800 rounded border border-zinc-700 mt-1">
+                    <div className="flex items-center gap-1.5 px-1.5 py-0.5 bg-zinc-800 rounded border border-zinc-700 mt-1">
                         <span className="text-[10px] font-black text-zinc-400 tracking-wider">V3.1</span>
+                        <div className={`w-1.5 h-1.5 rounded-full ${binaryStatus.found ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] animate-pulse'}`} />
                     </div>
                 </div>
                 <p className="text-zinc-600 text-[9px] uppercase tracking-[0.3em] font-black mt-1 ml-0.5">

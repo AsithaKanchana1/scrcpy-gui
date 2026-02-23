@@ -9,6 +9,7 @@ import SessionBehavior from "./components/SessionBehavior";
 import ShortcutsPanel from "./components/ShortcutsPanel";
 import Footer from "./components/Footer";
 import ErrorBoundary from "./components/ErrorBoundary";
+import OnboardingModal from "./components/OnboardingModal";
 import { useScrcpy } from "./hooks/useScrcpy";
 
 function App() {
@@ -44,7 +45,10 @@ function App() {
     pushFile,
     installApk,
     historyDevices,
-    clearHistory
+    clearHistory,
+    isOnboardingOpen,
+    setIsOnboardingOpen,
+    completeOnboarding
   } = useScrcpy();
 
   useEffect(() => {
@@ -244,6 +248,17 @@ function App() {
             <Footer />
           </div>
         </div>
+
+        <OnboardingModal
+          isOpen={isOnboardingOpen}
+          onClose={() => setIsOnboardingOpen(false)}
+          binaryStatus={scrcpyStatus}
+          devices={devices}
+          onDownload={downloadScrcpy}
+          isDownloading={isDownloading}
+          downloadProgress={downloadProgress}
+          onComplete={completeOnboarding}
+        />
       </div>
     </ErrorBoundary>
   );

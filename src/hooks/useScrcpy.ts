@@ -45,6 +45,7 @@ export function useScrcpy() {
     const [defaultRecordPath, setDefaultRecordPath] = useState<string>("");
     const [detectedCameras, setDetectedCameras] = useState<{ id: string, name: string }[]>([]);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
     // Removed mdnsDevices state
     const [theme, setTheme] = useState("ultraviolet");
     const [config, setConfig] = useState<ScrcpyConfig>({
@@ -113,6 +114,13 @@ export function useScrcpy() {
         };
 
         initPaths();
+
+        // Onboarding Check
+        const onboardingDone = localStorage.getItem('scrcpy_onboarding_done') === 'true';
+        if (!onboardingDone) {
+            setIsOnboardingOpen(true);
+        }
+
         setIsInitialized(true);
     }, []);
 
@@ -491,6 +499,12 @@ export function useScrcpy() {
         installApk,
         historyDevices,
         clearHistory,
-        sessionRunning: runningDevices.includes(activeDevice || '')
+        sessionRunning: runningDevices.includes(activeDevice || ''),
+        isOnboardingOpen,
+        setIsOnboardingOpen,
+        completeOnboarding: () => {
+            localStorage.setItem('scrcpy_onboarding_done', 'true');
+            setIsOnboardingOpen(false);
+        }
     };
 }
