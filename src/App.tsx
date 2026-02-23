@@ -253,7 +253,6 @@ function App() {
           isOpen={isOnboardingOpen}
           onClose={() => setIsOnboardingOpen(false)}
           binaryStatus={scrcpyStatus}
-          devices={devices}
           onDownload={downloadScrcpy}
           isDownloading={isDownloading}
           downloadProgress={downloadProgress}

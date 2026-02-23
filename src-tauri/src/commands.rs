@@ -78,8 +78,9 @@ fn create_command<S: AsRef<std::ffi::OsStr>>(program: S) -> TokioCommand {
     {
         let mut cmd = cmd;
         cmd.creation_flags(CREATE_NO_WINDOW);
-        return cmd;
+        cmd
     }
+    #[cfg(not(target_os = "windows"))]
     cmd
 }
 
@@ -323,7 +324,7 @@ fn split_args(s: &str) -> Result<Vec<String>, String> {
     let mut args = Vec::new();
     let mut current = String::new();
     let mut in_quotes = false;
-    let mut chars = s.chars();
+    let chars = s.chars();
 
     for c in chars {
         if c == '"' {
@@ -1016,7 +1017,7 @@ pub async fn download_scrcpy(window: Window) -> Result<(), String> {
     }
     
     // Verify entries and move to scrcpy-bin
-    let entries = std::fs::read_dir(&temp_extract_dir).map_err(|e| e.to_string())?;
+    let mut entries = std::fs::read_dir(&temp_extract_dir).map_err(|e| e.to_string())?;
     if let Some(entry) = entries.next() {
         let entry = entry.map_err(|e| e.to_string())?;
         let path = entry.path();

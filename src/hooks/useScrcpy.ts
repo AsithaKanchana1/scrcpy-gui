@@ -114,13 +114,6 @@ export function useScrcpy() {
         };
 
         initPaths();
-
-        // Onboarding Check
-        const onboardingDone = localStorage.getItem('scrcpy_onboarding_done') === 'true';
-        if (!onboardingDone) {
-            setIsOnboardingOpen(true);
-        }
-
         setIsInitialized(true);
     }, []);
 
@@ -288,6 +281,12 @@ export function useScrcpy() {
             const pathToCheck = customPath !== undefined ? customPath : config.scrcpyPath;
             const res: any = await invoke('check_scrcpy', { customPath: pathToCheck });
             setScrcpyStatus(res);
+
+            // Auto-trigger onboarding if not found
+            if (!res.found) {
+                setIsOnboardingOpen(true);
+            }
+
             return res.found;
         } catch (e: any) {
             setScrcpyStatus({ found: false, message: `Error: ${e}` });
