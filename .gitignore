@@ -35,4 +35,6 @@ scrcpy_temp.tar.gz
 # Env
 .env
 .env.*
-!.env.example
+
+# AI Handoff
+History.md
