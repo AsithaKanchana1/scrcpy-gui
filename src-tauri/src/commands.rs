@@ -73,9 +73,13 @@ fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> std::io::Result
 const CREATE_NO_WINDOW: u32 = 0x08000000;
 
 fn create_command<S: AsRef<std::ffi::OsStr>>(program: S) -> TokioCommand {
-    let mut cmd = TokioCommand::new(program);
+    let cmd = TokioCommand::new(program);
     #[cfg(target_os = "windows")]
-    cmd.creation_flags(CREATE_NO_WINDOW);
+    {
+        let mut cmd = cmd;
+        cmd.creation_flags(CREATE_NO_WINDOW);
+        return cmd;
+    }
     cmd
 }
 
@@ -321,7 +325,7 @@ fn split_args(s: &str) -> Result<Vec<String>, String> {
     let mut in_quotes = false;
     let mut chars = s.chars();
 
-    while let Some(c) = chars.next() {
+    for c in chars {
         if c == '"' {
             in_quotes = !in_quotes;
         } else if c.is_whitespace() && !in_quotes {
@@ -544,11 +548,9 @@ fn build_scrcpy_args(config: &ScrcpyConfig, video_dir_fallback: Option<String>) 
              let dpi = config.vd_dpi.unwrap_or(420);
              args.push(format!("--new-display={}x{}/{}", w, h, dpi));
              args.push("--video-buffer=100".to_string());
-        } else {
-             if otg_enabled {
-                 args.push("--keyboard=uhid".to_string());
-                 args.push("--mouse=uhid".to_string());
-             }
+        } else if otg_enabled {
+            args.push("--keyboard=uhid".to_string());
+            args.push("--mouse=uhid".to_string());
         }
         
         if let Some(fps) = config.fps {
@@ -946,7 +948,7 @@ pub async fn download_scrcpy(window: Window) -> Result<(), String> {
         
         let final_url = redirect_res.url().as_str();
         // URL is like https://github.com/Genymobile/scrcpy/releases/tag/v2.7
-        if let Some(tag) = final_url.split('/').last() {
+        if let Some(tag) = final_url.split('/').next_back() {
             if tag.starts_with('v') {
                 filename = format!("scrcpy-{}-{}{}", arch_tag, tag, extension);
                 download_url = format!("https://github.com/Genymobile/scrcpy/releases/download/{}/{}", tag, filename);
@@ -1015,7 +1017,7 @@ pub async fn download_scrcpy(window: Window) -> Result<(), String> {
     
     // Verify entries and move to scrcpy-bin
     let entries = std::fs::read_dir(&temp_extract_dir).map_err(|e| e.to_string())?;
-    for entry in entries {
+    if let Some(entry) = entries.next() {
         let entry = entry.map_err(|e| e.to_string())?;
         let path = entry.path();
         
@@ -1024,13 +1026,11 @@ pub async fn download_scrcpy(window: Window) -> Result<(), String> {
             let _ = std::fs::rename(&path, &extract_path).or_else(|_| {
                 copy_dir_all(&path, &extract_path)
             });
-            break; 
         } else {
             // If files are in root, rename the whole temp dir
             let _ = std::fs::rename(&temp_extract_dir, &extract_path).or_else(|_| {
                 copy_dir_all(&temp_extract_dir, &extract_path)
             });
-            break;
         }
     }
     
