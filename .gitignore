@@ -37,4 +37,4 @@ scrcpy_temp.tar.gz
 .env.*
 
 # AI Handoff
-History.md
+history/
