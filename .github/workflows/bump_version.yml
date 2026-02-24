@@ -72,5 +72,5 @@ jobs:
       - name: Create and Push Tag
         if: steps.cpr.outputs.pull-request-number != ''
         run: |
-          git tag "v${{ env.NEW_VERSION }}"
-          git push origin "v${{ env.NEW_VERSION }}"
+          git tag -f "v${{ env.NEW_VERSION }}"
+          git push origin "v${{ env.NEW_VERSION }}" --force
