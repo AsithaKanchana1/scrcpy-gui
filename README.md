@@ -1,89 +1,59 @@
 <p align="center">
   <img src="icon.png" width="128" height="128" alt="ScrcpyGUI Icon">
   <br>
- ScrcpyGUI v3.1
+  <h1>ScrcpyGUI v3</h1>
 </p>
 
 A modern, high-performance GUI for [scrcpy](https://github.com/Genymobile/scrcpy), completely rebuilt from the ground up with **Tauri v2**, **React 19**, and **Rust**.
 
-<img width="1870" height="998" alt="image" src="https://github.com/user-attachments/assets/a416fcd3-295a-4a01-8769-6f9da429b028" />
-
+<p align="center">
+  <img width="800" alt="ScrcpyGUI v3 Screenshot" src="https://github.com/user-attachments/assets/a416fcd3-295a-4a01-8769-6f9da429b028" />
+</p>
 
 ![Version](https://img.shields.io/badge/version-3.1.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 [![Support](https://img.shields.io/badge/Support-Patreon-orange.svg)](https://www.patreon.com/cw/KB_kilObit)
 
-ScrcpyGUI v3 is the next evolution of Android device control. By migrating to Tauri v2, we've achieved even smaller binary sizes, better security, and a more responsive UI. This version features a complete visual overhaul and deep integration with the latest scrcpy 3.x features.
+---
 
-## ✨ What's New in v3?
+## 📖 Complete Documentation
 
-- **⚡ Tauri v2 Migration**: Faster, lighter, and more secure.
-- **🎨 UI Overhaul**: A sleek, modern interface with a focus on usability and aesthetics.
-- **🌐 Wireless Pairing (A11+)**: Native support for ADB wireless pairing with a dedicated UI.
-- **📷 Advanced Camera Mode**: Use your phone as a high-end webcam with full control over camera ID, facing, and high-speed FPS.
-- **🖥️ Virtual Display Mode**: Create and manage secondary virtual displays for your device.
-- **💾 Smart History**: Remember your wireless connections for one-click re-entry.
-- **🛠️ Integrated Tooling**: Auto-downloader for scrcpy binaries and a built-in terminal for advanced users.
+Looking for instructions on how to set up USB debugging, wireless pairing, or installation? 
 
-## 📱 Key Features
+### 👉 **[Read the Full User Guide (GUIDE.md)](GUIDE.md)**
 
-- **🚀 Ultra-Low Latency**: Optimized Rust backend for maximum performance.
-- **📱 Device Management**: 
-  - Automatic USB discovery.
-  - Quick-connect history for wireless devices.
-  - "Kill ADB" stack reset for troubleshooting.
-- **🎮 Multiple Session Modes**:
-  - **Screen Mirroring**: High-performance mirroring with HID (OTG) support.
-  - **Camera Mode**: Professional webcam controls.
-  - **Desktop Mode**: High-resolution virtual displays.
-- **🛠️ Granular Control**:
-  - Real-time bitrate and FPS settings.
-  - Resolution scaling up to 4K.
-  - Recording support (MKV) with custom save paths.
-- **📁 File & APK Handling**:
-  - Drag & drop APK installation.
-  - Drag & drop file pushing directly to `/sdcard/Download/`.
-- **🎨 Theming Engine**: 
-  - Multiple built-in themes: **Ultraviolet**, **Astro**, **Carbon**, **Emerald**, and **Bloodmoon**.
+---
 
-## 🚀 Getting Started
+## ✨ Features
 
-### Prerequisites
+- **⚡ High Performance**: Ultra-low latency mirroring powered by a Rust backend.
+- **🎮 HID Input (OTG Mode)**: Lag-free keyboard and mouse simulation.
+- **📷 Pro Camera Mode**: High-quality webcam integration.
+- **🖥️ Virtual Display Mode**: Add secondary displays to your Android device.
+- **🌐 Native Wireless Pairing**: Effortless Android 11+ pairing via a dedicated UI.
+- **📁 Easy File Handling**: Simple drag-and-drop for APK installs and file transfers.
+- **🎨 Theming**: Multiple vibrant themes to match your workspace.
 
-- [scrcpy](https://github.com/Genymobile/scrcpy) (Optional: The app can download it for you!)
-- Android device with **USB Debugging** enabled.
+---
 
-### Installation
+## 🚀 Quick Start
 
-1. Download the latest release from the [Releases](https://github.com/kil0bit-kb/scrcpy-gui/releases) page.
-2. Run the application.
-3. If scrcpy is not found, use the in-app **Downloader** in the header.
+1. Download the latest release for your platform from the [Releases](https://github.com/kil0bit-kb/scrcpy-gui/releases) page.
+2. Launch the app.
+3. If `scrcpy` is missing, use the in-app **Downloader** in the header.
+4. Enable **USB Debugging** on your phone (Check the **[Guide](GUIDE.md)** for details).
+5. Plug in and play!
+
+---
 
 ## 🛠️ Development
 
-### Requirements
-- Node.js (v18+)
-- Rust & Cargo
-- [Tauri v2 Prerequisites](https://v2.tauri.app/start/prerequisites/)
+1. Clone the repository.
+2. Run `npm install`.
+3. Start dev mode with `npm run tauri dev`.
+4. Build with `npm run tauri build`.
 
-### Build from Source
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/kil0bit-kb/scrcpy-gui.git
-   cd scrcpy-gui
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Run development mode:
-   ```bash
-   npm run tauri dev
-   ```
-4. Build production bundle:
-   ```bash
-   npm run tauri build
-   ```
+---
 
 ## 💖 Support the Project
 
@@ -91,12 +61,8 @@ If you find this tool useful, consider supporting development on Patreon. Your s
 
 [![Patreon](https://img.shields.io/badge/Patreon-Support_KB-F96854?style=for-the-badge&logo=patreon)](https://www.patreon.com/cw/KB_kilObit)
 
+---
+
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [scrcpy](https://github.com/Genymobile/scrcpy) by Genymobile.
-- [Tauri](https://tauri.app/) framework.
-- [Lucide Icons](https://lucide.dev/).

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
 import Sidebar from "./components/Sidebar";
@@ -9,6 +9,8 @@ import SessionBehavior from "./components/SessionBehavior";
 import ShortcutsPanel from "./components/ShortcutsPanel";
 import Footer from "./components/Footer";
 import ErrorBoundary from "./components/ErrorBoundary";
+import OnboardingModal from "./components/OnboardingModal";
+import ThemedModal from "./components/ThemedModal";
 import { useScrcpy } from "./hooks/useScrcpy";
 
 function App() {
@@ -44,8 +46,41 @@ function App() {
     pushFile,
     installApk,
     historyDevices,
-    clearHistory
+    clearHistory,
+    isOnboardingOpen,
+    setIsOnboardingOpen,
+    completeOnboarding
   } = useScrcpy();
+
+  const [alertState, setAlertState] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    kind: 'warning' | 'error' | 'info' | 'success';
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    kind: 'info'
+  });
+
+  const showAlert = (title: string, message: string, kind: 'warning' | 'error' | 'info' | 'success' = 'info') => {
+    setAlertState({ isOpen: true, title, message, kind });
+  };
+
+  useEffect(() => {
+    // Close splashscreen and show main window when ready
+    const timer = setTimeout(async () => {
+      try {
+        const { invoke } = await import('@tauri-apps/api/core');
+        await invoke('close_splashscreen');
+      } catch (e) {
+        console.error("Failed to close splashscreen:", e);
+      }
+    }, 500); // 500ms delay for smoothness
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     // Initial check (once on mount) - Silent to avoid log clatter
@@ -79,7 +114,10 @@ function App() {
   }, [activeDevice]);
 
   const handleStart = async () => {
-    if (!activeDevice) return;
+    if (!activeDevice) {
+      showAlert("No Device Selected", "Please select a device from the sidebar to continue. Hint: If you just connected your phone, click 'Refresh' in the sidebar to update the list.", "warning");
+      return;
+    }
     await runScrcpy(config);
   };
 
@@ -144,7 +182,6 @@ function App() {
 
   const handleSetPath = async () => {
     try {
-      const { open } = await import('@tauri-apps/plugin-dialog');
       const selected = await open({
         directory: true,
         multiple: false,
@@ -170,7 +207,13 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen text-zinc-200 font-sans selection:bg-primary selection:text-white overflow-hidden flex flex-col transition-colors duration-500" style={{ backgroundColor: 'var(--bg-base)' }}>
+      <div className="min-h-screen text-zinc-200 font-sans selection:bg-primary selection:text-white overflow-hidden flex flex-col transition-opacity duration-1000 ease-in-out" style={{ backgroundColor: 'var(--bg-base)', opacity: 0, animation: 'fadeIn 0.8s ease-out forwards' }}>
+        <style>{`
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+        `}</style>
         <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
         <div className="fixed top-[-50%] left-[-50%] w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/30 via-transparent to-transparent pointer-events-none z-0"></div>
 
@@ -244,6 +287,24 @@ function App() {
             <Footer />
           </div>
         </div>
+
+        <OnboardingModal
+          isOpen={isOnboardingOpen}
+          onClose={() => setIsOnboardingOpen(false)}
+          binaryStatus={scrcpyStatus}
+          onDownload={downloadScrcpy}
+          isDownloading={isDownloading}
+          downloadProgress={downloadProgress}
+          onComplete={completeOnboarding}
+        />
+
+        <ThemedModal
+          isOpen={alertState.isOpen}
+          onClose={() => setAlertState(prev => ({ ...prev, isOpen: false }))}
+          title={alertState.title}
+          message={alertState.message}
+          kind={alertState.kind}
+        />
       </div>
     </ErrorBoundary>
   );

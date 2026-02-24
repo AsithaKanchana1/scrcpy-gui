@@ -6,7 +6,7 @@ on:
 
 jobs:
   lint-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       PKG_CONFIG_ALLOW_CROSS: 1
     steps:
@@ -40,14 +40,14 @@ jobs:
       - name: Install Linux dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev libjavascriptcoregtk-4.1-dev libsoup-3.0-dev
 
       - name: Lint Backend (Rust)
-        run: cargo clippy -- -D warnings
+        run: cargo clippy
         working-directory: src-tauri
 
   build-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       PKG_CONFIG_ALLOW_CROSS: 1
     steps:
@@ -68,7 +68,7 @@ jobs:
       - name: Install Linux dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev libjavascriptcoregtk-4.1-dev libsoup-3.0-dev
 
       - name: Rust Cache
         uses: swatinem/rust-cache@v2

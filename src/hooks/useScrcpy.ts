@@ -16,7 +16,6 @@ export interface ScrcpyConfig {
     record?: boolean;
     recordPath?: string;
     scrcpyPath?: string;
-    otgEnabled?: boolean;
     otgPure?: boolean;
     cameraFacing?: string;
     cameraId?: string;
@@ -29,6 +28,8 @@ export interface ScrcpyConfig {
     rotation?: string;
     res?: string;
     aspectRatioLock?: boolean;
+    hidKeyboard?: boolean;
+    hidMouse?: boolean;
 }
 
 export function useScrcpy() {
@@ -45,6 +46,7 @@ export function useScrcpy() {
     const [defaultRecordPath, setDefaultRecordPath] = useState<string>("");
     const [detectedCameras, setDetectedCameras] = useState<{ id: string, name: string }[]>([]);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
     // Removed mdnsDevices state
     const [theme, setTheme] = useState("ultraviolet");
     const [config, setConfig] = useState<ScrcpyConfig>({
@@ -61,7 +63,9 @@ export function useScrcpy() {
         vdWidth: 1920,
         vdHeight: 1080,
         vdDpi: 420,
-        aspectRatioLock: true
+        aspectRatioLock: true,
+        hidKeyboard: false,
+        hidMouse: false
     });
     const prevDevicesRef = useRef<string[]>([]);
 
@@ -280,6 +284,12 @@ export function useScrcpy() {
             const pathToCheck = customPath !== undefined ? customPath : config.scrcpyPath;
             const res: any = await invoke('check_scrcpy', { customPath: pathToCheck });
             setScrcpyStatus(res);
+
+            // Auto-trigger onboarding if not found
+            if (!res.found) {
+                setIsOnboardingOpen(true);
+            }
+
             return res.found;
         } catch (e: any) {
             setScrcpyStatus({ found: false, message: `Error: ${e}` });
@@ -491,6 +501,12 @@ export function useScrcpy() {
         installApk,
         historyDevices,
         clearHistory,
-        sessionRunning: runningDevices.includes(activeDevice || '')
+        sessionRunning: runningDevices.includes(activeDevice || ''),
+        isOnboardingOpen,
+        setIsOnboardingOpen,
+        completeOnboarding: () => {
+            localStorage.setItem('scrcpy_onboarding_done', 'true');
+            setIsOnboardingOpen(false);
+        }
     };
 }

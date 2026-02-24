@@ -2,36 +2,43 @@
 
 @theme {
   --color-primary: var(--primary);
+  --color-on-primary: var(--text-on-primary);
   --font-sans: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 :root {
   --primary: #8b5cf6;
+  --text-on-primary: #ffffff;
   --bg-base: #010101;
 }
 
 [data-theme='ultraviolet'] {
   --primary: #8b5cf6;
+  --text-on-primary: #ffffff;
   --bg-base: #06040a;
 }
 
 [data-theme='astro'] {
   --primary: #3b82f6;
+  --text-on-primary: #ffffff;
   --bg-base: #04050a;
 }
 
 [data-theme='carbon'] {
   --primary: #ffffff;
+  --text-on-primary: #09090b;
   --bg-base: #0a0a0a;
 }
 
 [data-theme='emerald'] {
   --primary: #10b981;
+  --text-on-primary: #ffffff;
   --bg-base: #040a08;
 }
 
 [data-theme='bloodmoon'] {
   --primary: #ef4444;
+  --text-on-primary: #ffffff;
   --bg-base: #0a0404;
 }
 

@@ -83,7 +83,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
                             </button>
                             <button
                                 onClick={this.handleExportDiagnostics}
-                                className="flex items-center justify-center gap-2 py-3 bg-primary text-black rounded-xl text-xs font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg shadow-primary/20 hover:opacity-90"
+                                className="flex items-center justify-center gap-2 py-3 bg-primary text-on-primary rounded-xl text-xs font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg shadow-primary/20 hover:opacity-90"
                             >
                                 <Download size={14} />
                                 Export logs
