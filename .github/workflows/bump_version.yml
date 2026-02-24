@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_TOKEN }} # Use a PAT to allow triggering other workflows
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -71,6 +71,8 @@ jobs:
 
       - name: Create and Push Tag
         if: steps.cpr.outputs.pull-request-number != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
           git tag -f "v${{ env.NEW_VERSION }}"
           git push origin "v${{ env.NEW_VERSION }}" --force
