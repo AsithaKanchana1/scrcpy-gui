@@ -1,6 +1,6 @@
 import { Github, Youtube, Globe, Heart, Coffee } from 'lucide-react';
 
-export default function Footer() {
+export default function Footer({ version }: { version: string }) {
     return (
         <footer className="w-full p-6 mt-4 glass border-t border-zinc-800 bg-zinc-900/80 backdrop-blur-md flex flex-col items-center justify-center space-y-4">
             <h3 className="text-xs font-black uppercase tracking-widest text-zinc-500">About Scrcpy GUI</h3>
@@ -45,7 +45,7 @@ export default function Footer() {
             </div>
 
             <div className="text-[10px] text-zinc-600 flex items-center gap-1 mt-2">
-                APP VERSION v3.1 • CREATED WITH <Heart size={10} className="text-red-500 fill-red-500" /> BY KB
+                APP VERSION v{version} • CREATED WITH <Heart size={10} className="text-red-500 fill-red-500" /> BY KB
             </div>
         </footer>
     );

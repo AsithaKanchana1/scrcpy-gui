@@ -111,7 +111,7 @@ export default function OnboardingModal({
                                                     <span className="text-[10px] font-black uppercase tracking-widest">Manual Setup Fallback</span>
                                                 </div>
                                                 <p className="text-[10px] text-zinc-600 mb-3 leading-loose">
-                                                    If auto-download fails, you can download the binaries manually and set the path in settings.
+                                                    If auto-download fails, try running as <span className="text-zinc-400 font-bold">Administrator</span>. Alternatively, download manually and set the path via the folder icon in the top-right corner.
                                                 </p>
                                                 <a
                                                     href="https://github.com/Genymobile/scrcpy/releases/latest"
@@ -126,9 +126,9 @@ export default function OnboardingModal({
                                     )}
 
                                     {isReady && (
-                                        <div className="flex items-center gap-2 text-emerald-500">
+                                        <div className="flex items-center gap-2 text-emerald-500 animate-in fade-in slide-in-from-left-2 duration-1000">
                                             <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-                                            <span className="text-[10px] font-black uppercase tracking-widest">Components Active</span>
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Success! Binaries Active</span>
                                         </div>
                                     )}
                                 </div>
