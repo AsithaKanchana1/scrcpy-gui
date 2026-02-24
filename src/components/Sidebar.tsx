@@ -88,7 +88,7 @@ export default function Sidebar({
                                         onClick={() => onSelectDevice(d)}
                                         className={`flex items-center gap-2.5 p-2.5 rounded-lg border transition-all text-left group ${isSelected ? 'bg-primary/5 border-primary/30' : 'bg-black/20 border-zinc-800/50 hover:border-zinc-700'}`}
                                     >
-                                        <div className={`p-1.5 rounded-md transition-colors ${isSelected ? 'bg-primary text-black' : 'bg-zinc-800 text-zinc-500 group-hover:text-zinc-300'}`}>
+                                        <div className={`p-1.5 rounded-md transition-colors ${isSelected ? 'bg-primary text-on-primary' : 'bg-zinc-800 text-zinc-500 group-hover:text-zinc-300'}`}>
                                             <Smartphone size={14} />
                                         </div>
                                         <div className="flex-1 min-w-0">
@@ -124,13 +124,13 @@ export default function Sidebar({
                     <div className="bg-black/40 p-1 rounded-lg flex gap-1 border border-zinc-800/50">
                         <button
                             onClick={() => setActiveTab('usb')}
-                            className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 rounded-md transition-all ${activeTab === 'usb' ? 'bg-primary text-black shadow-lg translate-y-[-1px]' : 'text-zinc-500 hover:text-zinc-300'}`}
+                            className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 rounded-md transition-all ${activeTab === 'usb' ? 'bg-primary text-on-primary shadow-lg translate-y-[-1px]' : 'text-zinc-500 hover:text-zinc-300'}`}
                         >
                             <Usb size={11} /> USB
                         </button>
                         <button
                             onClick={() => setActiveTab('wireless')}
-                            className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 rounded-md transition-all ${activeTab === 'wireless' ? 'bg-primary text-black shadow-lg translate-y-[-1px]' : 'text-zinc-500 hover:text-zinc-300'}`}
+                            className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 rounded-md transition-all ${activeTab === 'wireless' ? 'bg-primary text-on-primary shadow-lg translate-y-[-1px]' : 'text-zinc-500 hover:text-zinc-300'}`}
                         >
                             <Wifi size={11} /> Wireless
                         </button>
@@ -186,7 +186,7 @@ export default function Sidebar({
                                     <button
                                         onClick={() => handleConnect(connectIp)}
                                         disabled={isRefreshing}
-                                        className={`px-4 bg-zinc-800 hover:bg-primary text-zinc-400 hover:text-black rounded-lg text-[10px] font-black uppercase transition-all active:scale-95 ${isRefreshing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                        className={`px-4 bg-zinc-800 hover:bg-primary text-zinc-400 hover:text-on-primary rounded-lg text-[10px] font-black uppercase transition-all active:scale-95 ${isRefreshing ? 'opacity-50 cursor-not-allowed' : ''}`}
                                     >
                                         {isRefreshing ? '...' : 'Connect'}
                                     </button>

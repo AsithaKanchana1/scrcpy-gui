@@ -53,7 +53,7 @@ export default function Header({ onThemeChange, currentTheme, binaryStatus, onDo
 
                         <button
                             onClick={() => setShowHelp(false)}
-                            className="w-full mt-6 py-3 bg-primary text-black rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-primary/90 active:scale-95"
+                            className="w-full mt-6 py-3 bg-primary text-on-primary rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-primary/90 active:scale-95"
                         >
                             Got it
                         </button>

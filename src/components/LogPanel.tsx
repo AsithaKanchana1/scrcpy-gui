@@ -102,7 +102,7 @@ const LogPanel = memo(({ logs, onClear, onAddLog, onRunCommand }: LogPanelProps)
                                 <span className="text-zinc-600 font-bold shrink-0 tabular-nums opacity-40 group-hover:opacity-100 transition-opacity">
                                     {new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                                 </span>
-                                <span className="text-zinc-300 break-all selection:bg-primary/30">{log}</span>
+                                <span className="text-zinc-300 break-all selection:bg-primary/30 selection:text-on-primary">{log}</span>
                             </div>
                         ))}
                     </div>

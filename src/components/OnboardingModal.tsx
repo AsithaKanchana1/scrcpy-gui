@@ -68,8 +68,8 @@ export default function OnboardingModal({
                             <div className="flex gap-4 group">
                                 <div className="flex flex-col items-center">
                                     <div className={`w-10 h-10 rounded-2xl flex items-center justify-center border transition-all duration-300 ${isReady
-                                            ? 'bg-emerald-500/10 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
-                                            : 'bg-zinc-900 border-zinc-800'
+                                        ? 'bg-emerald-500/10 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
+                                        : 'bg-zinc-900 border-zinc-800'
                                         }`}>
                                         {isReady ? <CheckCircle2 size={20} className="text-emerald-400" /> : <Cpu size={20} className="text-zinc-500" />}
                                     </div>
@@ -140,8 +140,8 @@ export default function OnboardingModal({
                                 onClick={onComplete}
                                 disabled={!isReady}
                                 className={`group flex items-center gap-3 px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${isReady
-                                        ? 'bg-white text-black hover:scale-105 active:scale-95 shadow-[0_10px_20px_rgba(255,255,255,0.1)]'
-                                        : 'bg-zinc-900 text-zinc-600 border border-zinc-800'
+                                    ? 'bg-primary text-on-primary hover:scale-105 active:scale-95 shadow-[0_10px_20px_rgba(139,92,246,0.2)]'
+                                    : 'bg-zinc-900 text-zinc-600 border border-zinc-800'
                                     }`}
                             >
                                 Continue to App

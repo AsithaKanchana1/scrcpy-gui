@@ -51,7 +51,7 @@ export default function SessionBehavior({ config, setConfig }: SessionBehaviorPr
                 </div>
             </div>
             <div className={`w-6 h-3.5 shrink-0 rounded-full p-0.5 transition-all duration-300 ${checked ? (danger ? 'bg-red-600' : 'bg-primary') : 'bg-zinc-800'}`}>
-                <div className={`w-2.5 h-2.5 bg-white rounded-full shadow-sm transition-transform duration-300 ${checked ? 'translate-x-2.5' : 'translate-x-0'}`} />
+                <div className={`w-2.5 h-2.5 rounded-full shadow-sm transition-all duration-300 ${checked ? (danger ? 'bg-white translate-x-2.5' : 'bg-[var(--text-on-primary)] translate-x-2.5') : 'bg-white translate-x-0'}`} />
             </div>
         </div>
     );

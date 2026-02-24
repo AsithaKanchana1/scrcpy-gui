@@ -470,7 +470,6 @@ pub struct ScrcpyConfig {
     record: Option<bool>,
     record_path: Option<String>,
     scrcpy_path: Option<String>,
-    otg_enabled: Option<bool>,
     otg_pure: Option<bool>,
     camera_facing: Option<String>,
     camera_id: Option<String>,
@@ -482,6 +481,8 @@ pub struct ScrcpyConfig {
     vd_dpi: Option<u32>,
     rotation: Option<String>,
     res: Option<String>,
+    hid_keyboard: Option<bool>,
+    hid_mouse: Option<bool>,
 }
 
 fn build_scrcpy_args(config: &ScrcpyConfig, video_dir_fallback: Option<String>) -> Vec<String> {
@@ -496,10 +497,11 @@ fn build_scrcpy_args(config: &ScrcpyConfig, video_dir_fallback: Option<String>) 
     let codec = config.codec.as_deref().unwrap_or("h264");
     args.push(format!("--video-codec={}", codec));
 
-    let otg_enabled = config.otg_enabled.unwrap_or(false);
     let otg_pure = config.otg_pure.unwrap_or(false);
+    let hid_keyboard = config.hid_keyboard.unwrap_or(false);
+    let hid_mouse = config.hid_mouse.unwrap_or(false);
 
-    if config.session_mode == "mirror" && otg_enabled && otg_pure {
+    if config.session_mode == "mirror" && (hid_keyboard || hid_mouse) && otg_pure {
         if config.device.contains('.') || config.device.contains(':') {
              args.push("--no-video".to_string());
              args.push("--no-audio".to_string());
@@ -509,6 +511,13 @@ fn build_scrcpy_args(config: &ScrcpyConfig, video_dir_fallback: Option<String>) 
              args.push("--otg".to_string());
         }
     } else {
+        if hid_keyboard {
+            args.push("--keyboard=uhid".to_string());
+        }
+        if hid_mouse {
+            args.push("--mouse=uhid".to_string());
+        }
+
         if let Some(bitrate) = config.bitrate {
             args.push("--video-bit-rate".to_string());
             args.push(format!("{}M", bitrate));
@@ -549,9 +558,6 @@ fn build_scrcpy_args(config: &ScrcpyConfig, video_dir_fallback: Option<String>) 
              let dpi = config.vd_dpi.unwrap_or(420);
              args.push(format!("--new-display={}x{}/{}", w, h, dpi));
              args.push("--video-buffer=100".to_string());
-        } else if otg_enabled {
-            args.push("--keyboard=uhid".to_string());
-            args.push("--mouse=uhid".to_string());
         }
         
         if let Some(fps) = config.fps {

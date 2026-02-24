@@ -12,17 +12,32 @@
   "app": {
     "windows": [
       {
+        "label": "main",
         "title": "ScrcpyGUI",
         "width": 1200,
-        "height": 800,
-        "visible": true,
+        "height": 890,
+        "visible": false,
+        "resizable": false,
+        "center": true,
         "transparent": false,
         "decorations": true
+      },
+      {
+        "label": "splashscreen",
+        "url": "splashscreen.html",
+        "width": 500,
+        "height": 400,
+        "visible": false,
+        "decorations": false,
+        "transparent": true,
+        "center": true,
+        "alwaysOnTop": true
       }
     ],
     "security": {
       "csp": null
-    }
+    },
+    "withGlobalTauri": true
   },
   "bundle": {
     "active": true,

@@ -16,7 +16,6 @@ export interface ScrcpyConfig {
     record?: boolean;
     recordPath?: string;
     scrcpyPath?: string;
-    otgEnabled?: boolean;
     otgPure?: boolean;
     cameraFacing?: string;
     cameraId?: string;
@@ -29,6 +28,8 @@ export interface ScrcpyConfig {
     rotation?: string;
     res?: string;
     aspectRatioLock?: boolean;
+    hidKeyboard?: boolean;
+    hidMouse?: boolean;
 }
 
 export function useScrcpy() {
@@ -62,7 +63,9 @@ export function useScrcpy() {
         vdWidth: 1920,
         vdHeight: 1080,
         vdDpi: 420,
-        aspectRatioLock: true
+        aspectRatioLock: true,
+        hidKeyboard: false,
+        hidMouse: false
     });
     const prevDevicesRef = useRef<string[]>([]);
 
