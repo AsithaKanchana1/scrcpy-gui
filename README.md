@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-3.1.0-blue.svg?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-3.4.3-blue.svg?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat-square" alt="License">
   <a href="https://www.patreon.com/cw/KB_kilObit">
     <img src="https://img.shields.io/badge/Support-Patreon-orange.svg?style=flat-square" alt="Patreon">
@@ -95,4 +95,4 @@ ScrcpyGUI is made possible by the following amazing open-source projects:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 *ScrcpyGUI is an independent project and is not affiliated with Genymobile or scrcpy authors.*
-筋,Complexity:1,Description:
+
