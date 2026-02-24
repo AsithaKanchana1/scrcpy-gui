@@ -74,5 +74,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
-          git tag -f "v${{ env.NEW_VERSION }}"
+          git tag -f "v${{ env.NEW_VERSION }}" ${{ steps.cpr.outputs.pull-request-commit-hash }}
           git push origin "v${{ env.NEW_VERSION }}" --force
