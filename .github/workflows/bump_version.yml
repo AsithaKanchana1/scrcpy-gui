@@ -51,6 +51,7 @@ jobs:
           sed -i "s/^version = \".*\"/version = \"${{ env.NEW_VERSION }}\"/" src-tauri/Cargo.toml
 
       - name: Create Pull Request
+        id: cpr
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -66,3 +67,9 @@ jobs:
           labels: |
             version-bump
             automated-pr
+
+      - name: Create and Push Tag
+        if: steps.cpr.outputs.pull-request-number != ''
+        run: |
+          git tag "v${{ env.NEW_VERSION }}"
+          git push origin "v${{ env.NEW_VERSION }}"
