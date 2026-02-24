@@ -10,9 +10,10 @@ interface HeaderProps {
     onResetPath: () => void;
     isDownloading: boolean;
     downloadProgress: number;
+    version: string;
 }
 
-export default function Header({ onThemeChange, currentTheme, binaryStatus, onDownload, onSetPath, onResetPath, isDownloading, downloadProgress }: HeaderProps) {
+export default function Header({ onThemeChange, currentTheme, binaryStatus, onDownload, onSetPath, onResetPath, isDownloading, downloadProgress, version }: HeaderProps) {
     const [showHelp, setShowHelp] = useState(false);
 
     return (
@@ -98,7 +99,7 @@ export default function Header({ onThemeChange, currentTheme, binaryStatus, onDo
                         scrcpy <span className="text-primary not-italic">GUI</span>
                     </h1>
                     <div className="flex items-center gap-1.5 px-1.5 py-0.5 bg-zinc-800 rounded border border-zinc-700 mt-1">
-                        <span className="text-[10px] font-black text-zinc-400 tracking-wider">V3.1</span>
+                        <span className="text-[10px] font-black text-zinc-400 tracking-wider">V{version}</span>
                         <div className={`w-1.5 h-1.5 rounded-full ${binaryStatus.found ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] animate-pulse'}`} />
                     </div>
                 </div>

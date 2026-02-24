@@ -134,8 +134,23 @@
 
         <div class="loading-text">Initializing Engine</div>
 
-        <div class="version">VERSION 3.1.0</div>
+        <div class="version" id="version-text">VERSION ...</div>
     </div>
+
+    <script>
+        // Update version using global Tauri API
+        async function init() {
+            if (window.__TAURI__) {
+                try {
+                    const version = await window.__TAURI__.core.invoke('get_app_version');
+                    document.getElementById('version-text').textContent = `VERSION ${version}`;
+                } catch (e) {
+                    console.error('Failed to get version:', e);
+                }
+            }
+        }
+        init();
+    </script>
 </body>
 
 </html>

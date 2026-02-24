@@ -51,10 +51,16 @@ pub fn run() {
             commands::get_videos_dir,
             commands::save_report,
             commands::run_terminal_command,
-            close_splashscreen
+            close_splashscreen,
+            get_app_version
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+}
+
+#[tauri::command]
+fn get_app_version(app: tauri::AppHandle) -> String {
+    app.package_info().version.to_string()
 }
 
 #[tauri::command]

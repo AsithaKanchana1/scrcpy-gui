@@ -12,6 +12,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import OnboardingModal from "./components/OnboardingModal";
 import ThemedModal from "./components/ThemedModal";
 import { useScrcpy } from "./hooks/useScrcpy";
+import { getVersion } from '@tauri-apps/api/app';
 
 function App() {
   const {
@@ -64,21 +65,27 @@ function App() {
     kind: 'info'
   });
 
+  const [appVersion, setAppVersion] = useState("3.3.0");
+
   const showAlert = (title: string, message: string, kind: 'warning' | 'error' | 'info' | 'success' = 'info') => {
     setAlertState({ isOpen: true, title, message, kind });
   };
 
   useEffect(() => {
-    // Close splashscreen and show main window when ready
-    const timer = setTimeout(async () => {
+    // Initial setup: fetch version and close splashscreen
+    const initApp = async () => {
       try {
+        const v = await getVersion();
+        setAppVersion(v);
+
         const { invoke } = await import('@tauri-apps/api/core');
         await invoke('close_splashscreen');
       } catch (e) {
-        console.error("Failed to close splashscreen:", e);
+        console.error("Initialization failed:", e);
       }
-    }, 500); // 500ms delay for smoothness
+    };
 
+    const timer = setTimeout(initApp, 500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -227,6 +234,7 @@ function App() {
             onResetPath={handleResetPath}
             isDownloading={isDownloading}
             downloadProgress={downloadProgress}
+            version={appVersion}
           />
 
           <div className="flex-1 overflow-y-auto flex flex-col pt-6 custom-scrollbar">
@@ -284,7 +292,7 @@ function App() {
               </div>
             </div>
 
-            <Footer />
+            <Footer version={appVersion} />
           </div>
         </div>
 
