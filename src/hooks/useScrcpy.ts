@@ -95,7 +95,6 @@ export function useScrcpy() {
             }
         }
 
-        // Fetch default Videos dir
         const initPaths = async () => {
             try {
                 const defaultDir: string = await invoke('get_videos_dir');
@@ -116,8 +115,12 @@ export function useScrcpy() {
             }
         };
 
-        initPaths();
-        setIsInitialized(true);
+        const initStart = async () => {
+            await initPaths();
+            setIsInitialized(true);
+        };
+
+        initStart();
     }, []);
 
     // Persist changes

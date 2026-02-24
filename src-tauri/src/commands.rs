@@ -25,31 +25,35 @@ fn get_binary_path(binary_name: &str, custom_folder: Option<String>) -> String {
         format!("{}.{}", binary_name, exe_ext)
     };
 
+    // 1. Check custom folder if provided
     if let Some(folder) = custom_folder {
-        let full_path = Path::new(&folder).join(&binary_filename);
-        if full_path.exists() {
-            return full_path.to_string_lossy().to_string();
+        if !folder.trim().is_empty() {
+            let full_path = Path::new(&folder).join(&binary_filename);
+            if full_path.exists() && full_path.is_file() {
+                return full_path.to_string_lossy().to_string();
+            }
         }
     }
     
-    // Check local scrcpy-bin folder automatically (current dir)
-    if let Ok(current_dir) = std::env::current_dir() {
-        let local_bin = current_dir.join("scrcpy-bin").join(&binary_filename);
-        if local_bin.exists() {
-            return local_bin.to_string_lossy().to_string();
-        }
-    }
-
-    // Check relative to executable (for portable/production)
+    // 2. Check local scrcpy-bin folder (relative to executable for portable/production)
     if let Ok(exe_path) = std::env::current_exe() {
         if let Some(exe_dir) = exe_path.parent() {
              let local_bin = exe_dir.join("scrcpy-bin").join(&binary_filename);
-             if local_bin.exists() {
+             if local_bin.exists() && local_bin.is_file() {
                  return local_bin.to_string_lossy().to_string();
              }
         }
     }
-    // Return simple name to rely on PATH
+
+    // 3. Fallback to current working directory scrcpy-bin
+    if let Ok(current_dir) = std::env::current_dir() {
+        let local_bin = current_dir.join("scrcpy-bin").join(&binary_filename);
+        if local_bin.exists() && local_bin.is_file() {
+            return local_bin.to_string_lossy().to_string();
+        }
+    }
+
+    // 4. Return simple name to rely on system PATH
     binary_name.to_string()
 }
 
@@ -605,7 +609,7 @@ pub async fn run_scrcpy(window: Window, state: State<'_, ScrcpyState>, config: S
     let video_dir = app_handle.path().video_dir().ok().map(|p| p.to_string_lossy().to_string());
     let args = build_scrcpy_args(&config, video_dir);
 
-    let exe_path = get_binary_path("scrcpy", config.scrcpy_path);
+    let exe_path = get_binary_path("scrcpy", config.scrcpy_path.clone());
     
     // Log the session details for the user
     let mode_label = match config.session_mode.as_str() {
@@ -626,11 +630,28 @@ pub async fn run_scrcpy(window: Window, state: State<'_, ScrcpyState>, config: S
         let _ = window.emit("scrcpy-log", format!("[SYSTEM] Recording enabled -> output to {}", path));
     }
 
+    let adb_exe_path = get_binary_path("adb", config.scrcpy_path.clone());
+    let server_path = if !exe_path.is_empty() && exe_path != "scrcpy" {
+        let p = Path::new(&exe_path).parent().map(|p| p.join("scrcpy-server").to_string_lossy().to_string());
+        p
+    } else {
+        None
+    };
+
+    let _ = window.emit("scrcpy-log", format!("[SYSTEM] Using scrcpy: {}", exe_path));
+    let _ = window.emit("scrcpy-log", format!("[SYSTEM] Using adb: {}", adb_exe_path));
+
     let command_str = format!("> scrcpy {}", args.join(" "));
     let _ = window.emit("scrcpy-log", command_str);
 
     let mut command = create_command(&exe_path);
     command.args(&args);
+    command.env("ADB", &adb_exe_path);
+    if let Some(sp) = server_path {
+        if Path::new(&sp).exists() {
+            command.env("SCRCPY_SERVER_PATH", sp);
+        }
+    }
     command.stdout(Stdio::piped());
     command.stderr(Stdio::piped());
 
