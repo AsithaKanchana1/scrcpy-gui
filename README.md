@@ -61,7 +61,12 @@ To learn how to enable **USB Debugging**, set up **Wireless Pairing**, or instal
 ### Build Instructions
 1. `npm install`
 2. `npm run tauri dev` (Development)
-3. `npm run tauri build` (Production)
+3. `npm run tauri build` (Production, Windows/macOS)
+4. `npm run build:linux` (Production, Linux)
+
+The Linux build script enables AppImage extraction mode for environments without
+FUSE support and excludes host Wayland libraries that can conflict with the
+bundled runtime.
 
 ## ❄️ NixOS Installation (flakes)
 
@@ -108,4 +113,3 @@ ScrcpyGUI is made possible by the following amazing open-source projects:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 *ScrcpyGUI is an independent project and is not affiliated with Genymobile or scrcpy authors.*
-
